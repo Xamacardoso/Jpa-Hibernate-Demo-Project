@@ -19,7 +19,11 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @Transient // Blocks JPA interpretation of this attribute
+    // Blocks JPA interpretation of this attribute
+    @ManyToMany
+    @JoinTable(name = "tb_product_category", // Creates a database association table
+    joinColumns = @JoinColumn(name = "product_id"), // This entity's identifier
+    inverseJoinColumns = @JoinColumn(name = "category_id")) // The other entity's identifier
     private Set<Category> categories = new HashSet<>();
 
     public Product() {
