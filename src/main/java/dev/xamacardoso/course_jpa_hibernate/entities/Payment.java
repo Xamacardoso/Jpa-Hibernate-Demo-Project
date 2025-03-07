@@ -1,5 +1,6 @@
 package dev.xamacardoso.course_jpa_hibernate.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class Payment implements Serializable {
     private Long id;
     private Instant moment;
 
+    @JsonIgnore
     @OneToOne
     @MapsId // "Shares" order's id with payment id
     private Order order;
