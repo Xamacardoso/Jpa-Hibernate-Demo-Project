@@ -25,13 +25,16 @@ public class Order implements Serializable {
     // Integer only internally, the rest of the application will recognize as a OrderStatus enum
     private Integer status;
 
-    // A client haves many orders
+    // Many orders can be associated to a client
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 
     public Order() {
     }
@@ -76,6 +79,14 @@ public class Order implements Serializable {
             throw new IllegalArgumentException("Status cannot be null");
         }
         this.status = status.getCode();
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems() {
