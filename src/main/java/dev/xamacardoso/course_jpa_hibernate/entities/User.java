@@ -1,5 +1,6 @@
 package dev.xamacardoso.course_jpa_hibernate.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -19,6 +20,7 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    @JsonIgnore // Annotation for avoiding loop calls
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
