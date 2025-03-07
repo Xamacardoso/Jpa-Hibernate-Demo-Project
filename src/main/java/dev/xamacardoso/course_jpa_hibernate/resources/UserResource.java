@@ -44,4 +44,13 @@ public class UserResource {
 
         return ResponseEntity.created(uri).body(user);
     }
+
+    // TODO: Add integrity violation treatment, because a user haves orders associated
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        userService.delete(id);
+
+        // No-body response building
+        return ResponseEntity.noContent().build();
+    }
 }
