@@ -1,6 +1,7 @@
 package dev.xamacardoso.course_jpa_hibernate.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dev.xamacardoso.course_jpa_hibernate.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,6 +19,9 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
+    // Integer only internally, the rest of the application will recognize as a OrderStatus enum
+    private Integer status;
+
     // A client haves many orders
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -26,10 +30,11 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, Instant moment, User client, OrderStatus status) {
         this.id = id;
         this.moment = moment;
         this.client = client;
+        setStatus(status);
     }
 
     public Long getId() {
@@ -56,5 +61,14 @@ public class Order implements Serializable {
         this.client = client;
     }
 
+    public OrderStatus getStatus() {
+        return OrderStatus.valueOf(status);
+    }
 
+    public void setStatus(OrderStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("Status cannot be null");
+        }
+        this.status = status.getCode();
+    }
 }
