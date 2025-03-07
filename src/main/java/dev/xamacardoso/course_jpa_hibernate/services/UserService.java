@@ -30,4 +30,18 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User update(Long id, User user) {
+        // Picks only the reference of a user in database, to allow changes in this object.
+        User entity = userRepository.getOne(id);
+        updateData(entity, user);
+        return userRepository.save(entity);
+    }
+
+    // Updating just some fields
+    private void updateData(User savedEntity, User updatedEntity) {
+        savedEntity.setName(updatedEntity.getName());
+        savedEntity.setEmail(updatedEntity.getEmail());
+        savedEntity.setPhone(updatedEntity.getPhone());
+    }
 }
